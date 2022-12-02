@@ -48,7 +48,7 @@
       "suggested_key": {
         "default": "Alt+Q"
       },
-      "description": "Redirect to Next candidate person page."
+      "description": "プールした候補者を順次表示していきます"
     }
   }
 }
