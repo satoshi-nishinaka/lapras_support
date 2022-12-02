@@ -21,7 +21,7 @@ chrome.commands.onCommand.addListener((command) => {
         // Laprasのページを開いている場合は保存してあるCandidateIdsを元にページを開く
         if (url.startsWith('https://scout.lapras.com/')) {
           const id = getCandidateIds(storage);
-          console.log(id)
+          console.log(id);
           if (!id) {
             if (confirm('プールされているIDがありません')) {
               storage.save(() => {

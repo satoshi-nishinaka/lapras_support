@@ -8,7 +8,10 @@ interface Props {
 }
 export const LoadingTiming = (props: Props) => {
   const { storage } = props;
+  const [currentValue, setCurrentValue] = useState(storage.loadDelay);
   const [loadDelay, setLoadDelay] = useState(storage.loadDelay);
+  const isChanged = currentValue !== loadDelay;
+
   return (
     <Row className="p-1">
       <Col className="col-6">読み込みのタイミング</Col>
@@ -24,10 +27,14 @@ export const LoadingTiming = (props: Props) => {
       <Col className="col-3">
         <Button
           className="btn-sm"
-          aria-disabled={storage.loadDelay === loadDelay}
+          disabled={!isChanged}
           onClick={() => {
-            storage.loadDelay = loadDelay;
-            storage.save();
+            if (isChanged) {
+              storage.loadDelay = loadDelay;
+              storage.save(() => {
+                setCurrentValue(loadDelay);
+              });
+            }
           }}
         >
           更新

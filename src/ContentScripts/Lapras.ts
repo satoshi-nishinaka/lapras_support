@@ -21,51 +21,54 @@ export class Lapras {
     );
     console.warn('xpath', result);
     let element: Node;
-    let i = 0;
-    while ((element = result.iterateNext())) {
-      const textContent = element.textContent;
-      let will: Will = undefined;
-      if (textContent.includes('転職意欲： 高')) {
-        will = 'High';
-      } else if (textContent.includes('転職意欲： 中')) {
-        will = 'Low';
-      } else {
-        continue;
-      }
 
-      console.log(textContent);
-      const attributes = (element as HTMLElement).attributes;
-      console.log(i, element.textContent, attributes);
-      for (let j = 0; j < attributes.length; j++) {
-        const attribute = attributes[j];
-        if (attribute.name === 'id') {
-          switch (will) {
-            case 'High':
-              this.candidateHighIds.push(attribute.value);
-              break;
-            case 'Low':
-              this.candidateLowIds.push(attribute.value);
-              break;
-          }
-          break;
-        }
-      }
-      i++;
+    while ((element = result.iterateNext())) {
+      this.add(element);
     }
     return this;
   }
 
   save(): Lapras {
     const storage = new Storage();
-    // 既存のIDとmergeしてUniqueにする
-    storage.candidateLowIds = Array.from(
-      new Set(storage.candidateLowIds.concat(this.candidateLowIds))
-    );
-    storage.candidateHighIds = Array.from(
-      new Set(storage.candidateHighIds.concat(this.candidateHighIds))
-    );
-    storage.save();
+    storage.load(() => {
+      // 既存のIDとmergeしてUniqueにする
+      storage.candidateLowIds = Array.from(
+        new Set(storage.candidateLowIds.concat(this.candidateLowIds))
+      );
+      storage.candidateHighIds = Array.from(
+        new Set(storage.candidateHighIds.concat(this.candidateHighIds))
+      );
+      storage.save();
+    });
 
     return this;
+  }
+
+  private add(element: Node): void {
+    const textContent = element.textContent;
+    let will: Will = undefined;
+    if (textContent.includes('転職意欲： 高')) {
+      will = 'High';
+    } else if (textContent.includes('転職意欲： 中')) {
+      will = 'Low';
+    } else {
+      return;
+    }
+
+    const attributes = (element as HTMLElement).attributes;
+    for (let i = 0; i < attributes.length; i++) {
+      const attribute = attributes[i];
+      if (attribute.name === 'id') {
+        switch (will) {
+          case 'High':
+            this.candidateHighIds.push(attribute.value);
+            return;
+          case 'Low':
+            this.candidateLowIds.push(attribute.value);
+            return;
+        }
+        return;
+      }
+    }
   }
 }

@@ -1,8 +1,5 @@
-export type LoadTiming = 'onload' | 'every';
-
 export class Storage {
   public enablePooling = true;
-  public loadTiming: LoadTiming = 'onload';
   public candidateHighIds: string[] = [];
   public candidateLowIds: string[] = [];
   public checkedCandidateIds: string[] = [];
@@ -11,7 +8,6 @@ export class Storage {
   load(callBack?: () => void): void {
     const values = [
       'enablePooling',
-      'loadTiming',
       'candidateHighIds',
       'candidateLowIds',
       'checkedCandidateIds',
@@ -22,7 +18,6 @@ export class Storage {
       console.log(items);
 
       this.enablePooling = items.enablePooling;
-      this.loadTiming = items.loadTiming;
       this.candidateHighIds = items.candidateHighIds;
       this.candidateLowIds = items.candidateLowIds;
       this.checkedCandidateIds = items.checkedCandidateIds;
@@ -40,7 +35,6 @@ export class Storage {
   save(callback?: () => void): void {
     const values = {
       enablePooling: this.enablePooling,
-      loadTiming: this.loadTiming,
       candidateHighIds: this.candidateHighIds,
       candidateLowIds: this.candidateLowIds,
       checkedCandidateIds: this.checkedCandidateIds,
