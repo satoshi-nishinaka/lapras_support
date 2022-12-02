@@ -1,0 +1,53 @@
+{
+  "name": "lapras_support",
+  "version": "0.0.1",
+  "description": "Lapras Support",
+  "main": "index.js",
+  "scripts": {
+    "watch": "webpack --config webpack/webpack.dev.js --watch",
+    "build": "webpack --config webpack/webpack.prod.js",
+    "clean": "rimraf dist",
+    "test": "npx jest",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix src"
+  },
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:satoshi-nishinaka/lapras_support.git"
+  },
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "moment": "^2.29.4",
+    "popper.js": "^1.16.1",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.6.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.100",
+    "@types/react": "^18.0.18",
+    "@typescript-eslint/eslint-plugin": "^5.36.2",
+    "@typescript-eslint/parser": "^5.36.2",
+    "copy-webpack-plugin": "^6.1.0",
+    "css-loader": "^6.2.0",
+    "eslint": "^8.23.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "mini-css-extract-plugin": "^2.2.0",
+    "prettier": "^2.3.2",
+    "sass": "^1.54.9",
+    "sass-loader": "^13.0.2",
+    "style-loader": "^3.2.1",
+    "ts-loader": "^9.2.5",
+    "typescript": "^4.8.3",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-merge": "^5.8.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5"
+  }
+}

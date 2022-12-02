@@ -1,0 +1,54 @@
+{
+  "manifest_version": 2,
+  "name": "Lapras Support",
+  "description": "Lapras Candidate Person Pick Up Assistant",
+  "permissions": [
+    "tabs",
+    "clipboardWrite",
+    "storage",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "version": "0.0.1",
+  "background": {
+    "scripts": [
+      "js/vendor.js",
+      "js/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://scout.lapras.com/talent_pool/"
+      ],
+      "css": [
+        "css/content.css"
+      ],
+      "js": [
+        "js/vendor.js",
+        "js/content_script.js"
+      ],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
+  "browser_action": {
+    "default_title": "",
+    "default_icon": "icons/128.png",
+    "default_popup": "popup.html"
+  },
+  "commands": {
+    "redirect_to_next_candidate": {
+      "suggested_key": {
+        "default": "Alt+Q"
+      },
+      "description": "Redirect to Next candidate person page."
+    }
+  }
+}
