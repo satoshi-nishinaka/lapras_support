@@ -1,4 +1,4 @@
-export const TransitionTo = (id: string, isOpenNewTab: boolean): void => {
+export const TransitionTo = (id: number, isOpenNewTab: boolean): void => {
   TransitionToUrl(
     `https://scout.lapras.com/talent_pool/candidates/${id}`,
     isOpenNewTab

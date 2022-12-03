@@ -1,8 +1,8 @@
 export class Storage {
   public enablePooling = true;
-  public candidateHighIds: string[] = [];
-  public candidateLowIds: string[] = [];
-  public checkedCandidateIds: string[] = [];
+  public candidateHighIds: number[] = [];
+  public candidateLowIds: number[] = [];
+  public checkedCandidateIds: number[] = [];
   public loadDelay = 4000;
 
   load(callBack?: () => void): void {
@@ -15,8 +15,6 @@ export class Storage {
     ];
     chrome.storage.local.get(values, (items) => {
       // LocalStorageから設定情報を取得
-      console.log(items);
-
       this.enablePooling = items.enablePooling;
       this.candidateHighIds = items.candidateHighIds;
       this.candidateLowIds = items.candidateLowIds;

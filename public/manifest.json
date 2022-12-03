@@ -25,7 +25,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://scout.lapras.com/talent_pool/"
+        "https://scout.lapras.com/*"
       ],
       "css": [
         "css/content.css"

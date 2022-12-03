@@ -3,11 +3,36 @@ import { Storage } from '../Storage';
 /** 転職意欲 **/
 type Will = 'High' | 'Low';
 
+/**
+ * 指定したNode(HtmlElement) にクラスを適用します
+ *
+ * @param node
+ * @constructor
+ */
+function AddClassAtElements(nodes: Node[]): void {
+  const className = 'ls_scraped';
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    const element = node as HTMLElement;
+
+    if (!element.classList.contains(className)) {
+      element.classList.add(className);
+    }
+  }
+}
+
 export class Lapras {
   /** 転職意欲高 **/
-  private candidateHighIds: string[] = [];
+  private candidateHighIds: number[] = [];
   /** 転職意欲低 **/
-  private candidateLowIds: string[] = [];
+  private candidateLowIds: number[] = [];
+
+  private storage: Storage;
+
+  constructor(storage: Storage) {
+    this.storage = storage;
+    this.storage.load();
+  }
 
   scrapeCandidatesIds(): Lapras {
     const xpath =
@@ -19,32 +44,45 @@ export class Lapras {
       XPathResult.ORDERED_NODE_ITERATOR_TYPE,
       null
     );
+
     console.warn('xpath', result);
     let element: Node;
 
+    // 読み込んだNodeは後でまとめて指定したクラスをセットする
+    const loadedComponents: Node[] = [];
     while ((element = result.iterateNext())) {
-      this.add(element);
+      if (this.add(element)) {
+        loadedComponents.push(element);
+      }
     }
+
+    // リストに追加された場合は画面上のコンポーネントに指定したクラスをセット
+    AddClassAtElements(loadedComponents);
     return this;
   }
 
   save(): Lapras {
-    const storage = new Storage();
-    storage.load(() => {
+    this.storage.load(() => {
       // 既存のIDとmergeしてUniqueにする
-      storage.candidateLowIds = Array.from(
-        new Set(storage.candidateLowIds.concat(this.candidateLowIds))
+      this.storage.candidateLowIds = Array.from(
+        new Set(this.storage.candidateLowIds.concat(this.candidateLowIds))
       );
-      storage.candidateHighIds = Array.from(
-        new Set(storage.candidateHighIds.concat(this.candidateHighIds))
+      this.storage.candidateHighIds = Array.from(
+        new Set(this.storage.candidateHighIds.concat(this.candidateHighIds))
       );
-      storage.save();
+      this.storage.save();
     });
 
     return this;
   }
 
-  private add(element: Node): void {
+  /**
+   * 候補者リストに追加します
+   *
+   * @param element
+   * @private
+   */
+  private add(element: Node): boolean {
     const textContent = element.textContent;
     let will: Will = undefined;
     if (textContent.includes('転職意欲： 高')) {
@@ -52,23 +90,39 @@ export class Lapras {
     } else if (textContent.includes('転職意欲： 中')) {
       will = 'Low';
     } else {
-      return;
+      return false;
     }
 
     const attributes = (element as HTMLElement).attributes;
     for (let i = 0; i < attributes.length; i++) {
       const attribute = attributes[i];
       if (attribute.name === 'id') {
+        if (this.existsInChecked(parseInt(attribute.value))) {
+          // チェック済みは対象外
+          return false;
+        }
         switch (will) {
           case 'High':
-            this.candidateHighIds.push(attribute.value);
-            return;
+            this.candidateHighIds.push(parseInt(attribute.value));
+            return true;
           case 'Low':
-            this.candidateLowIds.push(attribute.value);
-            return;
+            this.candidateLowIds.push(parseInt(attribute.value));
+            return true;
         }
-        return;
+        return false;
       }
     }
+
+    return false;
+  }
+
+  /**
+   * 既に閲覧済みのIDかどうかを返却します
+   *
+   * @param id
+   * @private
+   */
+  private existsInChecked(id: number) {
+    return this.storage.checkedCandidateIds.includes(id);
   }
 }
