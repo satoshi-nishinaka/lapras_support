@@ -21,6 +21,7 @@ export const CandidateHigh = (props: Props) => {
           onClick={() => {
             const id = storage.candidateHighIds.shift();
             if (id) {
+              storage.checkedCandidateIds.push(id);
               storage.save(() => {
                 TransitionTo(id, true);
               });
