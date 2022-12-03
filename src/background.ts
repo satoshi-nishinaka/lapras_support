@@ -1,9 +1,10 @@
 import { Storage } from './Storage';
+import { TransitionTo, TransitionToUrl } from './Functions/Transition';
 
 const storage = new Storage();
 
 storage.load(() => {
-// ショートカットキーのハンドリング
+  // ショートカットキーのハンドリング
   chrome.commands.onCommand.addListener((command) => {
     function getCandidateIds(storage: Storage) {
       const id = storage.candidateHighIds.shift();
@@ -15,7 +16,7 @@ storage.load(() => {
 
     switch (command) {
       case 'redirect_to_next_candidate': {
-        chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
           const currentTab = tabs[0];
           const url = currentTab.url;
           console.log(url);
@@ -26,9 +27,10 @@ storage.load(() => {
             if (!id) {
               if (confirm('プールされているIDがありません')) {
                 storage.save(() => {
-                  chrome.tabs.update(currentTab.id, {
-                    url: 'https://scout.lapras.com/talent_pool/',
-                  });
+                  TransitionToUrl(
+                    'https://scout.lapras.com/talent_pool/',
+                    false
+                  );
                 });
 
                 return;
@@ -36,9 +38,7 @@ storage.load(() => {
             }
             storage.checkedCandidateIds.push(id);
             storage.save(() => {
-              chrome.tabs.update(currentTab.id, {
-                url: `https://scout.lapras.com/talent_pool/candidates/${id}`,
-              });
+              TransitionTo(id, false);
             });
             return;
           }

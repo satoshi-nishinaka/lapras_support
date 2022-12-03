@@ -2,6 +2,7 @@ import React = require('react');
 import { Storage } from '../Storage';
 import { Badge, Button, Col, Row } from 'react-bootstrap';
 import { useState } from 'react';
+import { TransitionTo } from '../Functions/Transition';
 
 interface Props {
   storage: Storage;
@@ -11,10 +12,25 @@ export const CandidateHigh = (props: Props) => {
   const [count, setCount] = useState(storage.candidateHighIds.length);
   return (
     <Row className="p-2">
-      <Col className="col-8">
+      <Col className="col-5">
         転職意欲： 高 <Badge>{count}</Badge>
       </Col>
-      <Col>
+      <Col className="col-4">
+        <Button
+          className="btn-sm btn-secondary"
+          onClick={() => {
+            const id = storage.candidateHighIds.shift();
+            if (id) {
+              storage.save(() => {
+                TransitionTo(id, true);
+              });
+            }
+          }}
+        >
+          候補者を見る
+        </Button>
+      </Col>
+      <Col className="col-3">
         <Button
           className="btn-sm btn-secondary"
           onClick={() => {
