@@ -17,6 +17,7 @@ export const CheckedCandidates = (props: Props) => {
       <Col>
         <Button
           className="btn-sm btn-secondary"
+          disabled={storage.checkedCandidateIds.length === 0}
           onClick={() => {
             storage.checkedCandidateIds = [];
             storage.save(() => {

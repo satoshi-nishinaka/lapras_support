@@ -18,6 +18,7 @@ export const CandidateHigh = (props: Props) => {
       <Col className="col-4">
         <Button
           className="btn-sm btn-secondary"
+          disabled={storage.candidateHighIds.length === 0}
           onClick={() => {
             const id = storage.candidateHighIds.shift();
             if (id) {
@@ -34,6 +35,7 @@ export const CandidateHigh = (props: Props) => {
       <Col className="col-3">
         <Button
           className="btn-sm btn-secondary"
+          disabled={storage.candidateHighIds.length === 0}
           onClick={() => {
             storage.candidateHighIds = [];
             storage.save(() => {
