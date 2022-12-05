@@ -6,6 +6,7 @@
     "tabs",
     "clipboardWrite",
     "storage",
+    "unlimitedStorage",
     "webRequest",
     "webRequestBlocking",
     "<all_urls>"

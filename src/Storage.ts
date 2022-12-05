@@ -15,11 +15,11 @@ export class Storage {
     ];
     chrome.storage.local.get(values, (items) => {
       // LocalStorageから設定情報を取得
-      this.enablePooling = items.enablePooling;
-      this.candidateHighIds = items.candidateHighIds;
-      this.candidateLowIds = items.candidateLowIds;
-      this.checkedCandidateIds = items.checkedCandidateIds;
-      this.loadDelay = items.loadDelay;
+      this.enablePooling = items.enablePooling ?? true;
+      this.candidateHighIds = items.candidateHighIds ?? [];
+      this.candidateLowIds = items.candidateLowIds ?? [];
+      this.checkedCandidateIds = items.checkedCandidateIds ?? [];
+      this.loadDelay = items.loadDelay ?? 4000;
 
       if (callBack) {
         callBack();
