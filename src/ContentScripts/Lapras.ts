@@ -2,6 +2,7 @@ import { Storage } from '../Storage';
 
 /** 転職意欲 **/
 type Will = 'High' | 'Low';
+type AppendClass = 'ls_scraped' | 'ls_checked';
 
 /**
  * 指定したNode(HtmlElement) にクラスを適用します
@@ -9,14 +10,13 @@ type Will = 'High' | 'Low';
  * @param node
  * @constructor
  */
-function AddClassAtElements(nodes: Node[]): void {
-  const className = 'ls_scraped';
+function AddClassAtElements(nodes: Node[], appendClass: AppendClass): void {
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
     const element = node as HTMLElement;
 
-    if (!element.classList.contains(className)) {
-      element.classList.add(className);
+    if (!element.classList.contains(appendClass)) {
+      element.classList.add(appendClass);
     }
   }
 }
@@ -50,14 +50,18 @@ export class Lapras {
 
     // 読み込んだNodeは後でまとめて指定したクラスをセットする
     const loadedComponents: Node[] = [];
+    const checkedComponents: Node[] = [];
     while ((element = result.iterateNext())) {
       if (this.add(element)) {
         loadedComponents.push(element);
+      } else {
+        checkedComponents.push(element);
       }
     }
 
     // リストに追加された場合は画面上のコンポーネントに指定したクラスをセット
-    AddClassAtElements(loadedComponents);
+    AddClassAtElements(loadedComponents, 'ls_scraped');
+    AddClassAtElements(checkedComponents, 'ls_checked');
     return this;
   }
 

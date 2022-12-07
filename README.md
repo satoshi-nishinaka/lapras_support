@@ -12,6 +12,7 @@ https://scout.lapras.com/talent_pool/
 * TypeScript
 * Webpack
 * React
+* Node.js
 
 ## 利用方法
 1. 後述の手順でChrome拡張をビルドする。
@@ -35,5 +36,5 @@ $ npm install
 ### ビルド
 カレントディレクトリで以下のコマンドを実行
 ```bash
-$ npm run build
+$ ./build.sh
 ```
