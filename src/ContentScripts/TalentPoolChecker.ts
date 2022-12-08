@@ -21,7 +21,7 @@ function AddClassAtElements(nodes: Node[], appendClass: AppendClass): void {
   }
 }
 
-export class Lapras {
+export class TalentPoolChecker {
   /** 転職意欲高 **/
   private candidateHighIds: number[] = [];
   /** 転職意欲低 **/
@@ -34,7 +34,7 @@ export class Lapras {
     this.storage.load();
   }
 
-  scrapeCandidatesIds(): Lapras {
+  scrapeCandidatesIds(): TalentPoolChecker {
     const xpath =
       '//*[@id="intersection-observer-root"]/div/section/div/div/div/div/div/div';
     const result = document.evaluate(
@@ -65,7 +65,7 @@ export class Lapras {
     return this;
   }
 
-  save(): Lapras {
+  save(): TalentPoolChecker {
     this.storage.load(() => {
       // 既存のIDとmergeしてUniqueにする
       this.storage.candidateLowIds = Array.from(
