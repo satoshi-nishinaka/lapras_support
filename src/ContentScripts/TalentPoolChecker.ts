@@ -15,9 +15,9 @@ function AddClassAtElements(nodes: Node[], appendClass: AppendClass): void {
     const node = nodes[i];
     const element = node as HTMLElement;
 
-    if (!element.classList.contains(appendClass)) {
-      element.classList.add(appendClass);
-    }
+    // 既につけているものを外してつけたいものだけにする
+    element.classList.remove('ls_scraped', 'ls_checked');
+    element.classList.add(appendClass);
   }
 }
 
@@ -26,6 +26,8 @@ export class TalentPoolChecker {
   private candidateHighIds: number[] = [];
   /** 転職意欲低 **/
   private candidateLowIds: number[] = [];
+  /** チェック済み扱い **/
+  private checkedCandidateIds: number[] = [];
 
   private storage: Storage;
 
@@ -74,6 +76,11 @@ export class TalentPoolChecker {
       this.storage.candidateHighIds = Array.from(
         new Set(this.storage.candidateHighIds.concat(this.candidateHighIds))
       );
+      this.storage.checkedCandidateIds = Array.from(
+        new Set(
+          this.storage.checkedCandidateIds.concat(this.checkedCandidateIds)
+        )
+      );
       this.storage.save();
     });
 
@@ -112,6 +119,9 @@ export class TalentPoolChecker {
           case 'Low':
             this.candidateLowIds.push(parseInt(attribute.value));
             return true;
+          default:
+            console.debug('チェック済み', attribute.value);
+            this.checkedCandidateIds.push(parseInt(attribute.value));
         }
         return false;
       }
