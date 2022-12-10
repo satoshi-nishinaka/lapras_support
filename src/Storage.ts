@@ -3,6 +3,7 @@ export class Storage {
   public candidateHighIds: number[] = [];
   public candidateLowIds: number[] = [];
   public checkedCandidateIds: number[] = [];
+  public bookmarkIds: number[] = [];
   public loadDelay = 4000;
 
   load(callBack?: () => void): void {
@@ -21,6 +22,10 @@ export class Storage {
       'checkedCandidateIds1',
       'checkedCandidateIds2',
       'checkedCandidateIds3',
+      'bookmarkIds0',
+      'bookmarkIds1',
+      'bookmarkIds2',
+      'bookmarkIds3',
       'loadDelay',
     ];
     chrome.storage.local.get(values, (items) => {
@@ -45,6 +50,12 @@ export class Storage {
         items.checkedCandidateIds1 ?? [],
         items.checkedCandidateIds2 ?? [],
         items.checkedCandidateIds3 ?? []
+      );
+      this.bookmarkIds = [].concat(
+        items.bookmarkIds0 ?? [],
+        items.bookmarkIds1 ?? [],
+        items.bookmarkIds2 ?? [],
+        items.bookmarkIds3 ?? []
       );
       this.loadDelay = items.loadDelay ?? 4000;
 
@@ -76,6 +87,12 @@ export class Storage {
       this.checkedCandidateIds.slice(400, 600),
       this.checkedCandidateIds.slice(600, 800),
     ];
+    const bookmarkIds = [
+      this.bookmarkIds.slice(0, 200),
+      this.bookmarkIds.slice(200, 400),
+      this.bookmarkIds.slice(400, 600),
+      this.bookmarkIds.slice(600, 800),
+    ];
 
     const values = {
       enablePooling: this.enablePooling,
@@ -91,6 +108,10 @@ export class Storage {
       checkedCandidateIds1: checkedCandidateIds[1],
       checkedCandidateIds2: checkedCandidateIds[2],
       checkedCandidateIds3: checkedCandidateIds[3],
+      bookmarkIds0: bookmarkIds[0],
+      bookmarkIds1: bookmarkIds[1],
+      bookmarkIds2: bookmarkIds[2],
+      bookmarkIds3: bookmarkIds[3],
       loadDelay: this.loadDelay,
     };
     console.log('saveValuesForLocalStorage -----');
