@@ -1,77 +1,42 @@
 import { Storage } from './Storage';
 import { TalentPoolChecker } from './ContentScripts/TalentPoolChecker';
+import { ProfilePageHelper } from './ContentScripts/ProfilePageHelper';
+import { CandidatePageHelper } from './ContentScripts/CandidatePageHelper';
 
 const storage = new Storage();
-let hasBookmarkButton = false;
+
+export type State = {
+  hasBookmarkButton: boolean;
+  url: string;
+};
+
+const state: State = {
+  hasBookmarkButton: false,
+  url: location.href,
+};
 
 console.info(`Lapras Support Start ${location.href}`);
 
-const getId = (url: string): number => {
-  const matches = new RegExp('/candidates/(\\d+)').exec(url);
-  return parseInt(matches[1]);
-};
+storage.load(() => {
+  state.url = location.href;
 
-const isCandidatePage = (url: string): boolean => {
-  return url.startsWith('https://scout.lapras.com/talent_pool/candidates/');
-};
-
-const isTalentPage = (url: string): boolean => {
-  return url.startsWith('https://scout.lapras.com/talent_pool');
-};
-
-const addCheckedCandidate = (url: string): void => {
-  if (isCandidatePage(url)) {
-    // 既読にする
-    const id = getId(url);
-    if (!storage.checkedCandidateIds.includes(id)) {
-      console.log('既読化', id);
-      storage.checkedCandidateIds.push(id);
-      storage.save();
-    }
-  }
-};
-
-const addBookmarkButton = (url: string): void => {
-  const id = getId(url);
-  const modal = document.getElementsByClassName('modal-body');
-  if (
-    hasBookmarkButton ||
-    modal.length === 0 ||
-    storage.bookmarkIds.includes(id)
-  ) {
+  if (ProfilePageHelper.isProfilePage(state.url)) {
+    console.warn('Lapras プロフィールページです');
+    setInterval(() => {
+      new ProfilePageHelper(storage).addBookmarkButton(state.url);
+    }, storage.loadDelay);
     return;
   }
-
-  const button = document.createElement('div');
-  button.classList.add('btn', 'btn-sm', 'bookmark');
-  button.innerText = '後で見る';
-  button.addEventListener('click', () => {
-    console.log(1);
-    storage.bookmarkIds.push(id);
-    storage.save(() => {
-      button.remove();
-      hasBookmarkButton = false;
-    });
-  });
-  modal[0].appendChild(button);
-
-  hasBookmarkButton = true;
-};
-
-storage.load(() => {
-  const url = location.href;
-
-  if (isTalentPage(url)) {
+  if (CandidatePageHelper.isTalentPage(state.url)) {
     console.warn('Lapras タレントプール画面です');
-    addCheckedCandidate(url);
-    addBookmarkButton(url);
+    const helper = new CandidatePageHelper(storage);
+    helper.addCheckedCandidate(state.url).addBookmarkButton(state);
     setInterval(() => {
       new TalentPoolChecker(storage).scrapeCandidatesIds().save();
       console.info('読み込み完了しました');
 
       // 再度既読チェック
-      addCheckedCandidate(location.href);
-      addBookmarkButton(url);
+      helper.addCheckedCandidate(location.href).addBookmarkButton(state);
     }, storage.loadDelay);
   }
 });

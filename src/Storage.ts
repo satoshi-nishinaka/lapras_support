@@ -3,7 +3,12 @@ export class Storage {
   public candidateHighIds: number[] = [];
   public candidateLowIds: number[] = [];
   public checkedCandidateIds: number[] = [];
+  /** タレントプールのIDのリスト **/
   public bookmarkIds: number[] = [];
+  /** プロフィールページのIDのリスト **/
+  public profileBookmarkIds: number[] = [];
+  /** 既読プロフィールページのIDのリスト **/
+  public checkedProfileIds: number[] = [];
   public loadDelay = 4000;
 
   load(callBack?: () => void): void {
@@ -26,6 +31,14 @@ export class Storage {
       'bookmarkIds1',
       'bookmarkIds2',
       'bookmarkIds3',
+      'profileBookmarkIds0',
+      'profileBookmarkIds1',
+      'profileBookmarkIds2',
+      'profileBookmarkIds3',
+      'checkedProfileIds0',
+      'checkedProfileIds1',
+      'checkedProfileIds2',
+      'checkedProfileIds3',
       'loadDelay',
     ];
     chrome.storage.local.get(values, (items) => {
@@ -56,6 +69,18 @@ export class Storage {
         items.bookmarkIds1 ?? [],
         items.bookmarkIds2 ?? [],
         items.bookmarkIds3 ?? []
+      );
+      this.profileBookmarkIds = [].concat(
+        items.profileBookmarkIds0 ?? [],
+        items.profileBookmarkIds1 ?? [],
+        items.profileBookmarkIds2 ?? [],
+        items.profileBookmarkIds3 ?? []
+      );
+      this.checkedProfileIds = [].concat(
+        items.checkedProfileIds0 ?? [],
+        items.checkedProfileIds1 ?? [],
+        items.checkedProfileIds2 ?? [],
+        items.checkedProfileIds3 ?? []
       );
       this.loadDelay = items.loadDelay ?? 4000;
 
@@ -93,6 +118,18 @@ export class Storage {
       this.bookmarkIds.slice(400, 600),
       this.bookmarkIds.slice(600, 800),
     ];
+    const profileBookmarkIds = [
+      this.profileBookmarkIds.slice(0, 200),
+      this.profileBookmarkIds.slice(200, 400),
+      this.profileBookmarkIds.slice(400, 600),
+      this.profileBookmarkIds.slice(600, 800),
+    ];
+    const checkedProfileIds = [
+      this.checkedProfileIds.slice(0, 200),
+      this.checkedProfileIds.slice(200, 400),
+      this.checkedProfileIds.slice(400, 600),
+      this.checkedProfileIds.slice(600, 800),
+    ];
 
     const values = {
       enablePooling: this.enablePooling,
@@ -112,6 +149,14 @@ export class Storage {
       bookmarkIds1: bookmarkIds[1],
       bookmarkIds2: bookmarkIds[2],
       bookmarkIds3: bookmarkIds[3],
+      profileBookmarkIds0: profileBookmarkIds[0],
+      profileBookmarkIds1: profileBookmarkIds[1],
+      profileBookmarkIds2: profileBookmarkIds[2],
+      profileBookmarkIds3: profileBookmarkIds[3],
+      checkedProfileIds0: checkedProfileIds[0],
+      checkedProfileIds1: checkedProfileIds[1],
+      checkedProfileIds2: checkedProfileIds[2],
+      checkedProfileIds3: checkedProfileIds[3],
       loadDelay: this.loadDelay,
     };
     console.log('saveValuesForLocalStorage -----');

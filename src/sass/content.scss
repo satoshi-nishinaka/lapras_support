@@ -21,3 +21,21 @@
     color: #fff;
   }
 }
+
+// プロフィールページ
+.p-candidate__head--summary {
+    position: relative;
+
+  // ブックマークボタン
+  .bookmark {
+    color: #fff;
+    background-color: #FF8020;
+    border: 1px solid #A04000;
+    padding: 4px;
+    &:hover {
+      color: #fff;
+      background-color: #FFA040;
+      border: 1px solid #A04000;
+    }
+  }
+}

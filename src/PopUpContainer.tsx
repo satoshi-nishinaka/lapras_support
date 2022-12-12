@@ -7,6 +7,7 @@ import { Container } from 'react-bootstrap';
 import { LoadingTiming } from './Section/LoadingTiming';
 import { createRoot } from 'react-dom/client';
 import { Bookmark } from './Section/Bookmark';
+import { ProfileBookmark } from './Section/ProfileBookmark';
 
 type Props = { storage: Storage };
 
@@ -14,6 +15,7 @@ const PopupContainer = ({ storage }: Props): JSX.Element => {
   return (
     <Container>
       <Bookmark storage={storage} />
+      <ProfileBookmark storage={storage} />
       <CandidateHigh storage={storage} />
       <CandidateLow storage={storage} />
       <CheckedCandidates storage={storage} />
