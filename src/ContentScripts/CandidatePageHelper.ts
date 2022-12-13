@@ -69,7 +69,6 @@ export class CandidatePageHelper {
     button.classList.add('btn', 'btn-sm', 'bookmark');
     button.innerText = '後で見る';
     button.addEventListener('click', () => {
-      console.log(1);
       this.storage.bookmarkIds.push(id);
       this.storage.save(() => {
         button.remove();

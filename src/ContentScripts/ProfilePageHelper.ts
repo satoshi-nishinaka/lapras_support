@@ -49,7 +49,6 @@ export class ProfilePageHelper {
     button.classList.add('btn', 'btn-sm', 'bookmark');
     button.innerText = '後で見る';
     button.addEventListener('click', () => {
-      console.log(1);
       this.storage.profileBookmarkIds.push(id);
       this.storage.save(() => {
         button.remove();
