@@ -24,6 +24,9 @@ export class CandidatePageHelper {
    */
   static parseId = (url: string): number => {
     const matches = new RegExp('/candidates/(\\d+)').exec(url);
+    if (!matches) {
+      return -1;
+    }
     return parseInt(matches[1]);
   };
 
@@ -54,6 +57,7 @@ export class CandidatePageHelper {
     const id = CandidatePageHelper.parseId(state.url);
     const modal = document.getElementsByClassName('modal-body');
     if (
+      id === -1 ||
       state.hasBookmarkButton ||
       modal.length === 0 ||
       this.storage.bookmarkIds.includes(id)
