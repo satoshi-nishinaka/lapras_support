@@ -21,14 +21,14 @@ storage.load(() => {
   state.url = location.href;
 
   if (ProfilePageHelper.isProfilePage(state.url)) {
-    console.warn('Lapras プロフィールページです');
+    console.info('Lapras プロフィールページです');
     setInterval(() => {
       new ProfilePageHelper(storage).addBookmarkButton(state.url);
     }, storage.loadDelay);
     return;
   }
   if (CandidatePageHelper.isTalentPage(state.url)) {
-    console.warn('Lapras タレントプール画面です');
+    console.info('Lapras タレントプール画面です');
     const helper = new CandidatePageHelper(storage);
     helper.addCheckedCandidate(state.url).addBookmarkButton(state);
     setInterval(() => {

@@ -47,7 +47,7 @@ export class TalentPoolChecker {
       null
     );
 
-    console.warn('xpath', result);
+    console.debug('xpath', result);
     let element: Node;
 
     // 読み込んだNodeは後でまとめて指定したクラスをセットする
