@@ -94,41 +94,42 @@ export class Storage {
    * ローカルストレージに設定内容を保存します
    */
   save(callback?: () => void): void {
+    const step = 200;
     const candidateHighIds = [
-      this.candidateHighIds.slice(0, 200),
-      this.candidateHighIds.slice(200, 400),
-      this.candidateHighIds.slice(400, 600),
-      this.candidateHighIds.slice(600, 800),
+      this.candidateHighIds.slice(0, step),
+      this.candidateHighIds.slice(step, step * 2),
+      this.candidateHighIds.slice(step * 2, step * 3),
+      this.candidateHighIds.slice(step * 3, step * 4),
     ];
     const candidateLowIds = [
       this.candidateLowIds.slice(0, 200),
-      this.candidateLowIds.slice(200, 400),
-      this.candidateLowIds.slice(400, 600),
-      this.candidateLowIds.slice(600, 800),
+      this.candidateLowIds.slice(step, step * 2),
+      this.candidateLowIds.slice(step * 2, step * 3),
+      this.candidateLowIds.slice(step * 3, step * 4),
     ];
     const checkedCandidateIds = [
-      this.checkedCandidateIds.slice(0, 200),
-      this.checkedCandidateIds.slice(200, 400),
-      this.checkedCandidateIds.slice(400, 600),
-      this.checkedCandidateIds.slice(600, 800),
+      this.checkedCandidateIds.slice(0, step),
+      this.checkedCandidateIds.slice(step, step * 2),
+      this.checkedCandidateIds.slice(step * 2, step * 3),
+      this.checkedCandidateIds.slice(step * 3, step * 4),
     ];
     const bookmarkIds = [
-      this.bookmarkIds.slice(0, 200),
-      this.bookmarkIds.slice(200, 400),
-      this.bookmarkIds.slice(400, 600),
-      this.bookmarkIds.slice(600, 800),
+      this.bookmarkIds.slice(0, step),
+      this.bookmarkIds.slice(step, step * 2),
+      this.bookmarkIds.slice(step * 2, step * 3),
+      this.bookmarkIds.slice(step * 3, step * 4),
     ];
     const profileBookmarkIds = [
-      this.profileBookmarkIds.slice(0, 200),
-      this.profileBookmarkIds.slice(200, 400),
-      this.profileBookmarkIds.slice(400, 600),
-      this.profileBookmarkIds.slice(600, 800),
+      this.profileBookmarkIds.slice(0, step),
+      this.profileBookmarkIds.slice(step, step * 2),
+      this.profileBookmarkIds.slice(step * 2, step * 3),
+      this.profileBookmarkIds.slice(step * 3, step * 4),
     ];
     const checkedProfileIds = [
-      this.checkedProfileIds.slice(0, 200),
-      this.checkedProfileIds.slice(200, 400),
-      this.checkedProfileIds.slice(400, 600),
-      this.checkedProfileIds.slice(600, 800),
+      this.checkedProfileIds.slice(0, step),
+      this.checkedProfileIds.slice(step, step * 2),
+      this.checkedProfileIds.slice(step * 2, step * 3),
+      this.checkedProfileIds.slice(step * 3, step * 4),
     ];
 
     const values = {
