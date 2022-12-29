@@ -1,27 +1,11 @@
-export class Storage {
-  public enablePooling = true;
-  public candidateHighIds: number[] = [];
-  public candidateLowIds: number[] = [];
-  public checkedCandidateIds: number[] = [];
-  /** タレントプールのIDのリスト **/
-  public bookmarkIds: number[] = [];
-  /** プロフィールページのIDのリスト **/
-  public profileBookmarkIds: number[] = [];
-  /** 既読プロフィールページのIDのリスト **/
-  public checkedProfileIds: number[] = [];
-  public loadDelay = 4000;
-
-  getCandidateIds(): number {
-    const id = this.candidateHighIds.shift();
-    if (!id) {
-      return this.candidateLowIds.shift();
-    }
-    return id;
-  }
+export class AlternativeStorage {
+  checkedCandidateIds: number[];
+  private candidateHighIds: number[];
+  private candidateLowIds: number[];
 
   load(): Promise<void> {
     return new Promise((resolve, reject) => {
-      // candidateIdはそれぞれ271件までしか保存できないっぽい
+      console.log('load');
       const values = [
         'enablePooling',
         'candidateHighIds0',
@@ -51,10 +35,8 @@ export class Storage {
         'loadDelay',
       ];
       chrome.storage.local.get(values, (items) => {
-        // LocalStorageから設定情報を取得
         console.debug('Lapras Support: load storage values ----');
         console.debug('Lapras Support', items);
-        this.enablePooling = items.enablePooling ?? true;
         this.candidateHighIds = [].concat(
           items.candidateHighIds0 ?? [],
           items.candidateHighIds1 ?? [],
@@ -73,26 +55,6 @@ export class Storage {
           items.checkedCandidateIds2 ?? [],
           items.checkedCandidateIds3 ?? []
         );
-        this.bookmarkIds = [].concat(
-          items.bookmarkIds0 ?? [],
-          items.bookmarkIds1 ?? [],
-          items.bookmarkIds2 ?? [],
-          items.bookmarkIds3 ?? []
-        );
-        this.profileBookmarkIds = [].concat(
-          items.profileBookmarkIds0 ?? [],
-          items.profileBookmarkIds1 ?? [],
-          items.profileBookmarkIds2 ?? [],
-          items.profileBookmarkIds3 ?? []
-        );
-        this.checkedProfileIds = [].concat(
-          items.checkedProfileIds0 ?? [],
-          items.checkedProfileIds1 ?? [],
-          items.checkedProfileIds2 ?? [],
-          items.checkedProfileIds3 ?? []
-        );
-        this.loadDelay = items.loadDelay ?? 4000;
-
         if (resolve) {
           resolve();
         }
@@ -100,11 +62,21 @@ export class Storage {
     });
   }
 
-  /**
-   * ローカルストレージに設定内容を保存します
-   */
+  getCandidateIds(): number {
+    const id = this.candidateHighIds.shift();
+    if (!id) {
+      return this.candidateLowIds.shift();
+    }
+    return id;
+  }
+  pushCheckedCandidateIds(id: number) {
+    console.log('pushCheckedCandidateIds');
+    this.checkedCandidateIds.push(id);
+  }
+
   save(): Promise<void> {
     return new Promise((resolve, reject) => {
+      console.log('save');
       const step = 200;
       const candidateHighIds = [
         this.candidateHighIds.slice(0, step),
@@ -124,27 +96,8 @@ export class Storage {
         this.checkedCandidateIds.slice(step * 2, step * 3),
         this.checkedCandidateIds.slice(step * 3, step * 4),
       ];
-      const bookmarkIds = [
-        this.bookmarkIds.slice(0, step),
-        this.bookmarkIds.slice(step, step * 2),
-        this.bookmarkIds.slice(step * 2, step * 3),
-        this.bookmarkIds.slice(step * 3, step * 4),
-      ];
-      const profileBookmarkIds = [
-        this.profileBookmarkIds.slice(0, step),
-        this.profileBookmarkIds.slice(step, step * 2),
-        this.profileBookmarkIds.slice(step * 2, step * 3),
-        this.profileBookmarkIds.slice(step * 3, step * 4),
-      ];
-      const checkedProfileIds = [
-        this.checkedProfileIds.slice(0, step),
-        this.checkedProfileIds.slice(step, step * 2),
-        this.checkedProfileIds.slice(step * 2, step * 3),
-        this.checkedProfileIds.slice(step * 3, step * 4),
-      ];
 
       const values = {
-        enablePooling: this.enablePooling,
         candidateHighIds0: candidateHighIds[0],
         candidateHighIds1: candidateHighIds[1],
         candidateHighIds2: candidateHighIds[2],
@@ -157,19 +110,6 @@ export class Storage {
         checkedCandidateIds1: checkedCandidateIds[1],
         checkedCandidateIds2: checkedCandidateIds[2],
         checkedCandidateIds3: checkedCandidateIds[3],
-        bookmarkIds0: bookmarkIds[0],
-        bookmarkIds1: bookmarkIds[1],
-        bookmarkIds2: bookmarkIds[2],
-        bookmarkIds3: bookmarkIds[3],
-        profileBookmarkIds0: profileBookmarkIds[0],
-        profileBookmarkIds1: profileBookmarkIds[1],
-        profileBookmarkIds2: profileBookmarkIds[2],
-        profileBookmarkIds3: profileBookmarkIds[3],
-        checkedProfileIds0: checkedProfileIds[0],
-        checkedProfileIds1: checkedProfileIds[1],
-        checkedProfileIds2: checkedProfileIds[2],
-        checkedProfileIds3: checkedProfileIds[3],
-        loadDelay: this.loadDelay,
       };
       console.log('Lapras Support: saveValuesForLocalStorage -----');
       console.log('Lapras Support', values);
@@ -179,15 +119,5 @@ export class Storage {
         resolve();
       }
     });
-  }
-
-  /**
-   * 既に閲覧済みのIDかどうかを返却します
-   *
-   * @param id
-   * @private
-   */
-  existsInChecked(id: number): boolean {
-    return this.checkedCandidateIds.includes(id);
   }
 }

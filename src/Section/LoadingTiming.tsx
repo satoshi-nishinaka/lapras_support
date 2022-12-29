@@ -31,7 +31,7 @@ export const LoadingTiming = (props: Props) => {
           onClick={() => {
             if (isChanged) {
               storage.loadDelay = loadDelay;
-              storage.save(() => {
+              storage.save().then(() => {
                 setCurrentValue(loadDelay);
               });
             }

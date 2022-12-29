@@ -20,7 +20,7 @@ export const CheckedCandidates = (props: Props) => {
           disabled={storage.checkedCandidateIds.length === 0}
           onClick={() => {
             storage.checkedCandidateIds = [];
-            storage.save(() => {
+            storage.save().then(() => {
               setCount(0);
             });
           }}

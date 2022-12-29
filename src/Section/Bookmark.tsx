@@ -22,7 +22,7 @@ export const Bookmark = (props: Props): JSX.Element => {
             const id = storage.bookmarkIds.shift();
             if (id) {
               storage.checkedCandidateIds.push(id);
-              storage.save(() => {
+              storage.save().then(() => {
                 TransitionTo(id, true);
               });
             }
@@ -37,7 +37,7 @@ export const Bookmark = (props: Props): JSX.Element => {
           disabled={storage.bookmarkIds.length === 0}
           onClick={() => {
             storage.bookmarkIds = [];
-            storage.save(() => {
+            storage.save().then(() => {
               setCount(0);
             });
           }}

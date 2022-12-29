@@ -44,7 +44,7 @@ export class CandidatePageHelper {
       // 既読にする
       const id = CandidatePageHelper.parseId(url);
       if (!this.storage.checkedCandidateIds.includes(id)) {
-        console.log('既読化', id);
+        console.log('Lapras Support: 既読化', id);
         this.storage.checkedCandidateIds.push(id);
         this.storage.save();
       }
@@ -70,7 +70,7 @@ export class CandidatePageHelper {
     button.innerText = '後で見る';
     button.addEventListener('click', () => {
       this.storage.bookmarkIds.push(id);
-      this.storage.save(() => {
+      this.storage.save().then(() => {
         button.remove();
         state.hasBookmarkButton = false;
       });

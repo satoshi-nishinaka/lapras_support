@@ -23,7 +23,7 @@ export const CandidateHigh = (props: Props) => {
             const id = storage.candidateHighIds.shift();
             if (id) {
               storage.checkedCandidateIds.push(id);
-              storage.save(() => {
+              storage.save().then(() => {
                 TransitionTo(id, true);
               });
             }
@@ -38,7 +38,7 @@ export const CandidateHigh = (props: Props) => {
           disabled={storage.candidateHighIds.length === 0}
           onClick={() => {
             storage.candidateHighIds = [];
-            storage.save(() => {
+            storage.save().then(() => {
               setCount(0);
             });
           }}

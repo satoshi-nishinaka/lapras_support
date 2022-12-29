@@ -15,16 +15,14 @@ const state: State = {
   url: location.href,
 };
 
-console.info(`Lapras Support Start ${location.href}`);
+console.info(`Content Script: Lapras Support Start ${location.href}`);
 
-storage.load(() => {
+storage.load().then(() => {
   state.url = location.href;
 
   if (ProfilePageHelper.isProfilePage(state.url)) {
     console.info('Lapras プロフィールページです');
-    setInterval(() => {
-      new ProfilePageHelper(storage).addBookmarkButton(state.url);
-    }, storage.loadDelay);
+    new ProfilePageHelper(storage).addBookmarkButton(state.url);
     return;
   }
   if (CandidatePageHelper.isTalentPage(state.url)) {

@@ -41,7 +41,7 @@ export class ProfilePageHelper {
       target.length === 0 ||
       this.storage.profileBookmarkIds.includes(id)
     ) {
-      console.log('既にブックマーク済みです', target);
+      console.info('Lapras Support: 既にブックマーク済みです', target);
       return;
     }
 
@@ -50,11 +50,11 @@ export class ProfilePageHelper {
     button.innerText = '後で見る';
     button.addEventListener('click', () => {
       this.storage.profileBookmarkIds.push(id);
-      this.storage.save(() => {
+      this.storage.save().then(() => {
         button.remove();
       });
     });
     target[0].appendChild(button);
-    console.log('ブックマーク追加ボタンを表示');
+    console.log('Lapras Support: ブックマーク追加ボタンを表示');
   };
 }

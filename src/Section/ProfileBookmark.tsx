@@ -1,6 +1,5 @@
 import React = require('react');
 import { Badge, Button, Col, Row } from 'react-bootstrap';
-import { TransitionTo } from '../Functions/Transition';
 import { Storage } from '../Storage';
 import { useState } from 'react';
 import { ProfilePageHelper } from '../ContentScripts/ProfilePageHelper';
@@ -23,7 +22,7 @@ export const ProfileBookmark = (props: Props): JSX.Element => {
             const id = storage.profileBookmarkIds.shift();
             if (id) {
               storage.checkedProfileIds.push(id);
-              storage.save(() => {
+              storage.save().then(() => {
                 ProfilePageHelper.TransitionTo(id, true);
               });
             }
@@ -38,7 +37,7 @@ export const ProfileBookmark = (props: Props): JSX.Element => {
           disabled={storage.profileBookmarkIds.length === 0}
           onClick={() => {
             storage.profileBookmarkIds = [];
-            storage.save(() => {
+            storage.save().then(() => {
               setCount(0);
             });
           }}
