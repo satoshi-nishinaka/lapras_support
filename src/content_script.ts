@@ -35,6 +35,6 @@ storage.load().then(() => {
 
       // 再度既読チェック
       helper.addCheckedCandidate(location.href).addBookmarkButton(state);
-    }, storage.getLoadDelay());
+    }, storage.loadDelay);
   }
 });

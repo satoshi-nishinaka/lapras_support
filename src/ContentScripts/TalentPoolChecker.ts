@@ -70,27 +70,15 @@ export class TalentPoolChecker {
   save(): TalentPoolChecker {
     this.storage.load().then(() => {
       // 既存のIDとmergeしてUniqueにする
-      this.storage.setCandidateLowIds(
-        Array.from(
-          new Set(
-            this.storage.getCandidateLowIds().concat(this.candidateLowIds)
-          )
-        )
+      this.storage.candidateLowIds = Array.from(
+        new Set(this.storage.candidateLowIds.concat(this.candidateLowIds))
       );
-      this.storage.setCandidateHighIds(
-        Array.from(
-          new Set(
-            this.storage.getCandidateHighIds().concat(this.candidateHighIds)
-          )
-        )
+      this.storage.candidateHighIds = Array.from(
+        new Set(this.storage.candidateHighIds.concat(this.candidateHighIds))
       );
-      this.storage.setCheckedCandidateIds(
-        Array.from(
-          new Set(
-            this.storage
-              .getCheckedCandidateIds()
-              .concat(this.checkedCandidateIds)
-          )
+      this.storage.checkedCandidateIds = Array.from(
+        new Set(
+          this.storage.checkedCandidateIds.concat(this.checkedCandidateIds)
         )
       );
       this.storage.save();

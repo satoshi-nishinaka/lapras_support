@@ -9,7 +9,7 @@ interface Props {
 }
 export const CandidateLow = (props: Props) => {
   const { storage } = props;
-  const [count, setCount] = useState(storage.lengthCandidateLowIds());
+  const [count, setCount] = useState(storage.candidateLowIds.length);
   return (
     <Row className="p-2">
       <Col className="col-5">
@@ -18,11 +18,11 @@ export const CandidateLow = (props: Props) => {
       <Col className="col-4">
         <Button
           className="btn-sm btn-secondary"
-          disabled={storage.lengthCandidateLowIds() === 0}
+          disabled={storage.candidateLowIds.length === 0}
           onClick={() => {
-            const id = storage.shiftCandidateLowIds();
+            const id = storage.candidateLowIds.shift();
             if (id) {
-              storage.pushCheckedCandidateIds(id);
+              storage.checkedCandidateIds.push(id);
               storage.save().then(() => {
                 TransitionTo(id, true);
               });
@@ -35,9 +35,9 @@ export const CandidateLow = (props: Props) => {
       <Col className="col-3">
         <Button
           className="btn-sm btn-secondary"
-          disabled={storage.lengthCandidateLowIds() === 0}
+          disabled={storage.candidateLowIds.length === 0}
           onClick={() => {
-            storage.clearCandidateLowIds();
+            storage.candidateLowIds = [];
             storage.save().then(() => {
               setCount(0);
             });

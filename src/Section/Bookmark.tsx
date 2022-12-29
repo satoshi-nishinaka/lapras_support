@@ -8,7 +8,7 @@ type Props = { storage: Storage };
 
 export const Bookmark = (props: Props): JSX.Element => {
   const { storage } = props;
-  const [count, setCount] = useState(storage.lengthBookmarkIds());
+  const [count, setCount] = useState(storage.bookmarkIds.length);
   return (
     <Row className="p-2">
       <Col className="col-5">
@@ -17,11 +17,11 @@ export const Bookmark = (props: Props): JSX.Element => {
       <Col className="col-4">
         <Button
           className="btn-sm btn-secondary"
-          disabled={storage.lengthBookmarkIds() === 0}
+          disabled={storage.bookmarkIds.length === 0}
           onClick={() => {
-            const id = storage.shiftBookmarkIds();
+            const id = storage.bookmarkIds.shift();
             if (id) {
-              storage.pushCheckedCandidateIds(id);
+              storage.checkedCandidateIds.push(id);
               storage.save().then(() => {
                 TransitionTo(id, true);
               });
@@ -34,9 +34,9 @@ export const Bookmark = (props: Props): JSX.Element => {
       <Col className="col-3">
         <Button
           className="btn-sm btn-secondary"
-          disabled={storage.lengthBookmarkIds() === 0}
+          disabled={storage.bookmarkIds.length === 0}
           onClick={() => {
-            storage.clearBookmarkIds();
+            storage.bookmarkIds = [];
             storage.save().then(() => {
               setCount(0);
             });

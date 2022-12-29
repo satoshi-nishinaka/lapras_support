@@ -8,7 +8,7 @@ type Props = { storage: Storage };
 
 export const ProfileBookmark = (props: Props): JSX.Element => {
   const { storage } = props;
-  const [count, setCount] = useState(storage.lengthProfileBookmarkIds());
+  const [count, setCount] = useState(storage.profileBookmarkIds.length);
   return (
     <Row className="p-2">
       <Col className="col-5">
@@ -17,11 +17,11 @@ export const ProfileBookmark = (props: Props): JSX.Element => {
       <Col className="col-4">
         <Button
           className="btn-sm btn-secondary"
-          disabled={storage.lengthProfileBookmarkIds() === 0}
+          disabled={storage.profileBookmarkIds.length === 0}
           onClick={() => {
-            const id = storage.shiftProfileBookmarkIds();
+            const id = storage.profileBookmarkIds.shift();
             if (id) {
-              storage.pushCheckedProfileIds(id);
+              storage.checkedProfileIds.push(id);
               storage.save().then(() => {
                 ProfilePageHelper.TransitionTo(id, true);
               });
@@ -34,9 +34,9 @@ export const ProfileBookmark = (props: Props): JSX.Element => {
       <Col className="col-3">
         <Button
           className="btn-sm btn-secondary"
-          disabled={storage.lengthProfileBookmarkIds() === 0}
+          disabled={storage.profileBookmarkIds.length === 0}
           onClick={() => {
-            storage.clearProfileBookmarkIds();
+            storage.profileBookmarkIds = [];
             storage.save().then(() => {
               setCount(0);
             });

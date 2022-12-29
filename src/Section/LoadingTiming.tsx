@@ -8,8 +8,8 @@ interface Props {
 }
 export const LoadingTiming = (props: Props) => {
   const { storage } = props;
-  const [currentValue, setCurrentValue] = useState(storage.getLoadDelay());
-  const [loadDelay, setLoadDelay] = useState(storage.getLoadDelay());
+  const [currentValue, setCurrentValue] = useState(storage.loadDelay);
+  const [loadDelay, setLoadDelay] = useState(storage.loadDelay);
   const isChanged = currentValue !== loadDelay;
 
   return (
@@ -30,7 +30,7 @@ export const LoadingTiming = (props: Props) => {
           disabled={!isChanged}
           onClick={() => {
             if (isChanged) {
-              storage.setLoadDelay(loadDelay);
+              storage.loadDelay = loadDelay;
               storage.save().then(() => {
                 setCurrentValue(loadDelay);
               });

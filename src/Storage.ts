@@ -1,15 +1,15 @@
 export class Storage {
-  private enablePooling = true;
-  private candidateHighIds: number[] = [];
-  private candidateLowIds: number[] = [];
-  private checkedCandidateIds: number[] = [];
+  public enablePooling = true;
+  public candidateHighIds: number[] = [];
+  public candidateLowIds: number[] = [];
+  public checkedCandidateIds: number[] = [];
   /** タレントプールのIDのリスト **/
-  private bookmarkIds: number[] = [];
+  public bookmarkIds: number[] = [];
   /** プロフィールページのIDのリスト **/
-  private profileBookmarkIds: number[] = [];
+  public profileBookmarkIds: number[] = [];
   /** 既読プロフィールページのIDのリスト **/
-  private checkedProfileIds: number[] = [];
-  private loadDelay = 4000;
+  public checkedProfileIds: number[] = [];
+  public loadDelay = 4000;
 
   getCandidateIds(): number {
     const id = this.candidateHighIds.shift();
@@ -189,138 +189,5 @@ export class Storage {
    */
   existsInChecked(id: number): boolean {
     return this.checkedCandidateIds.includes(id);
-    // return true;
-  }
-
-  setCandidateLowIds(numbers: number[]): void {
-    this.candidateLowIds = numbers;
-  }
-
-  getCandidateLowIds(): number[] {
-    return this.candidateLowIds;
-    // return [];
-  }
-
-  setCandidateHighIds(numbers: number[]): void {
-    this.candidateHighIds = numbers;
-  }
-
-  getCandidateHighIds(): number[] {
-    return this.candidateHighIds;
-    // return [];
-  }
-
-  setCheckedCandidateIds(numbers: number[]): void {
-    this.checkedCandidateIds = numbers;
-  }
-
-  pushProfileBookmarkIds(id: number): void {
-    this.profileBookmarkIds.push(id);
-  }
-
-  getCheckedCandidateIds(): number[] {
-    return this.checkedCandidateIds;
-    // return [];
-  }
-
-  pushCheckedCandidateIds(id: number): void {
-    this.checkedCandidateIds.push(id);
-  }
-
-  existsProfileBookmarkIds(id: number): boolean {
-    return this.profileBookmarkIds.includes(id);
-    // return true;
-  }
-
-  pushBookmarkIds(id: number): void {
-    this.bookmarkIds.push(id);
-  }
-
-  existsBookmarkIds(id: number): boolean {
-    return this.bookmarkIds.includes(id);
-    // return true;
-  }
-
-  existsCheckedCandidateIds(id: number): boolean {
-    return this.checkedCandidateIds.includes(id);
-    // return true;
-  }
-
-  clearProfileBookmarkIds(): void {
-    this.profileBookmarkIds = [];
-  }
-
-  clearBookmarkIds(): void {
-    this.bookmarkIds = [];
-  }
-
-  lengthBookmarkIds(): number {
-    return this.bookmarkIds.length;
-    // return 1;
-  }
-
-  getLoadDelay(): number {
-    return this.loadDelay;
-    // return 1;
-  }
-
-  lengthProfileBookmarkIds(): number {
-    return this.profileBookmarkIds.length;
-    // return 1;
-  }
-
-  pushCheckedProfileIds(id: number): void {
-    this.checkedProfileIds.push(id);
-  }
-
-  shiftProfileBookmarkIds(): number {
-    return this.profileBookmarkIds.shift();
-    // return 1;
-  }
-
-  shiftBookmarkIds(): number {
-    return this.bookmarkIds.shift();
-    // return 1;
-  }
-
-  setLoadDelay(loadDelay: number): void {
-    this.loadDelay = loadDelay;
-  }
-
-  clearCheckedCandidateIds(): void {
-    this.checkedCandidateIds = [];
-  }
-
-  lengthCheckedCandidateIds(): number {
-    return this.checkedCandidateIds.length;
-    // return 1;
-  }
-
-  lengthCandidateLowIds(): number {
-    return this.candidateLowIds.length;
-    // return 1;
-  }
-
-  clearCandidateLowIds(): void {
-    this.candidateLowIds = [];
-  }
-
-  shiftCandidateLowIds(): number {
-    return this.candidateLowIds.shift();
-    // return 1;
-  }
-
-  clearCandidateHighIds(): void {
-    this.candidateHighIds = [];
-  }
-
-  lengthCandidateHighIds(): number {
-    return this.candidateHighIds.length;
-    // return 1;
-  }
-
-  shiftCandidateHighIds(): number {
-    return this.candidateHighIds.shift();
-    // return 1;
   }
 }

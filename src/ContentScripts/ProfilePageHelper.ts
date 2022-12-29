@@ -39,7 +39,7 @@ export class ProfilePageHelper {
     if (
       // hasBookmarkButton ||
       target.length === 0 ||
-      this.storage.existsProfileBookmarkIds(id)
+      this.storage.profileBookmarkIds.includes(id)
     ) {
       console.info('Lapras Support: 既にブックマーク済みです', target);
       return;
@@ -49,7 +49,7 @@ export class ProfilePageHelper {
     button.classList.add('btn', 'btn-sm', 'bookmark');
     button.innerText = '後で見る';
     button.addEventListener('click', () => {
-      this.storage.pushProfileBookmarkIds(id);
+      this.storage.profileBookmarkIds.push(id);
       this.storage.save().then(() => {
         button.remove();
       });
