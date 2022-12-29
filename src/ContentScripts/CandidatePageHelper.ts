@@ -43,9 +43,9 @@ export class CandidatePageHelper {
     if (CandidatePageHelper.isCandidatePage(url)) {
       // 既読にする
       const id = CandidatePageHelper.parseId(url);
-      if (!this.storage.checkedCandidateIds.includes(id)) {
-        console.log('既読化', id);
-        this.storage.checkedCandidateIds.push(id);
+      if (!this.storage.existsCheckedCandidateIds(id)) {
+        console.log('Lapras Support: 既読化', id);
+        this.storage.pushCheckedCandidateIds(id);
         this.storage.save();
       }
     }
@@ -60,7 +60,7 @@ export class CandidatePageHelper {
       id === -1 ||
       state.hasBookmarkButton ||
       modal.length === 0 ||
-      this.storage.bookmarkIds.includes(id)
+      this.storage.existsBookmarkIds(id)
     ) {
       return;
     }
@@ -69,8 +69,8 @@ export class CandidatePageHelper {
     button.classList.add('btn', 'btn-sm', 'bookmark');
     button.innerText = '後で見る';
     button.addEventListener('click', () => {
-      this.storage.bookmarkIds.push(id);
-      this.storage.save(() => {
+      this.storage.pushBookmarkIds(id);
+      this.storage.save().then(() => {
         button.remove();
         state.hasBookmarkButton = false;
       });

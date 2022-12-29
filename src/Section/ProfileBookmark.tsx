@@ -1,6 +1,5 @@
 import React = require('react');
 import { Badge, Button, Col, Row } from 'react-bootstrap';
-import { TransitionTo } from '../Functions/Transition';
 import { Storage } from '../Storage';
 import { useState } from 'react';
 import { ProfilePageHelper } from '../ContentScripts/ProfilePageHelper';
@@ -9,7 +8,7 @@ type Props = { storage: Storage };
 
 export const ProfileBookmark = (props: Props): JSX.Element => {
   const { storage } = props;
-  const [count, setCount] = useState(storage.profileBookmarkIds.length);
+  const [count, setCount] = useState(storage.lengthProfileBookmarkIds());
   return (
     <Row className="p-2">
       <Col className="col-5">
@@ -18,12 +17,12 @@ export const ProfileBookmark = (props: Props): JSX.Element => {
       <Col className="col-4">
         <Button
           className="btn-sm btn-secondary"
-          disabled={storage.profileBookmarkIds.length === 0}
+          disabled={storage.lengthProfileBookmarkIds() === 0}
           onClick={() => {
-            const id = storage.profileBookmarkIds.shift();
+            const id = storage.shiftProfileBookmarkIds();
             if (id) {
-              storage.checkedProfileIds.push(id);
-              storage.save(() => {
+              storage.pushCheckedProfileIds(id);
+              storage.save().then(() => {
                 ProfilePageHelper.TransitionTo(id, true);
               });
             }
@@ -35,10 +34,10 @@ export const ProfileBookmark = (props: Props): JSX.Element => {
       <Col className="col-3">
         <Button
           className="btn-sm btn-secondary"
-          disabled={storage.profileBookmarkIds.length === 0}
+          disabled={storage.lengthProfileBookmarkIds() === 0}
           onClick={() => {
-            storage.profileBookmarkIds = [];
-            storage.save(() => {
+            storage.clearProfileBookmarkIds();
+            storage.save().then(() => {
               setCount(0);
             });
           }}

@@ -8,7 +8,7 @@ interface Props {
 }
 export const CheckedCandidates = (props: Props) => {
   const { storage } = props;
-  const [count, setCount] = useState(storage.checkedCandidateIds.length);
+  const [count, setCount] = useState(storage.lengthCheckedCandidateIds());
   return (
     <Row className="p-2">
       <Col className="col-8">
@@ -17,10 +17,10 @@ export const CheckedCandidates = (props: Props) => {
       <Col>
         <Button
           className="btn-sm btn-secondary"
-          disabled={storage.checkedCandidateIds.length === 0}
+          disabled={storage.lengthCheckedCandidateIds() === 0}
           onClick={() => {
-            storage.checkedCandidateIds = [];
-            storage.save(() => {
+            storage.clearCheckedCandidateIds();
+            storage.save().then(() => {
               setCount(0);
             });
           }}

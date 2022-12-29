@@ -27,7 +27,7 @@ const PopupContainer = ({ storage }: Props): JSX.Element => {
 const container = document.getElementById('root');
 if (container) {
   const storage = new Storage();
-  storage.load(() => {
+  storage.load().then(() => {
     const root = createRoot(container);
     root.render(<PopupContainer storage={storage} />);
   });

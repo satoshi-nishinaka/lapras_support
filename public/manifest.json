@@ -3,9 +3,10 @@
   "name": "Lapras Support",
   "description": "Lapras Candidate Person Pick Up Assistant",
   "permissions": [
-    "tabs",
-    "clipboardWrite",
+    "alarms",
+    "scripting",
     "storage",
+    "tabs",
     "unlimitedStorage",
     "webRequest"
   ],

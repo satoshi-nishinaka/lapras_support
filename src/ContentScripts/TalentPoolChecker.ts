@@ -47,7 +47,7 @@ export class TalentPoolChecker {
       null
     );
 
-    console.debug('xpath', result);
+    console.debug('Lapras Support: xpath', result);
     let element: Node;
 
     // 読み込んだNodeは後でまとめて指定したクラスをセットする
@@ -68,17 +68,29 @@ export class TalentPoolChecker {
   }
 
   save(): TalentPoolChecker {
-    this.storage.load(() => {
+    this.storage.load().then(() => {
       // 既存のIDとmergeしてUniqueにする
-      this.storage.candidateLowIds = Array.from(
-        new Set(this.storage.candidateLowIds.concat(this.candidateLowIds))
+      this.storage.setCandidateLowIds(
+        Array.from(
+          new Set(
+            this.storage.getCandidateLowIds().concat(this.candidateLowIds)
+          )
+        )
       );
-      this.storage.candidateHighIds = Array.from(
-        new Set(this.storage.candidateHighIds.concat(this.candidateHighIds))
+      this.storage.setCandidateHighIds(
+        Array.from(
+          new Set(
+            this.storage.getCandidateHighIds().concat(this.candidateHighIds)
+          )
+        )
       );
-      this.storage.checkedCandidateIds = Array.from(
-        new Set(
-          this.storage.checkedCandidateIds.concat(this.checkedCandidateIds)
+      this.storage.setCheckedCandidateIds(
+        Array.from(
+          new Set(
+            this.storage
+              .getCheckedCandidateIds()
+              .concat(this.checkedCandidateIds)
+          )
         )
       );
       this.storage.save();
@@ -120,7 +132,7 @@ export class TalentPoolChecker {
             this.candidateLowIds.push(parseInt(attribute.value));
             return true;
           default:
-            console.debug('チェック済み', attribute.value);
+            console.debug('Lapras Support: チェック済み', attribute.value);
             this.checkedCandidateIds.push(parseInt(attribute.value));
         }
         return false;
@@ -137,6 +149,6 @@ export class TalentPoolChecker {
    * @private
    */
   private existsInChecked(id: number) {
-    return this.storage.checkedCandidateIds.includes(id);
+    return this.storage.existsInChecked(id);
   }
 }
