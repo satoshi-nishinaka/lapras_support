@@ -1,3 +1,14 @@
+/**
+ * タレントプール画面
+ */
+.p-tp__card {
+  padding: 4px !important;
+  margin-bottom: 4px !important;
+}
+.reaction-and-hirability {
+  padding: 4px 0 4px 16px !important
+}
+
 .ls_scraped {
   background-color: coral !important;
 }
@@ -22,7 +33,9 @@
   }
 }
 
-// プロフィールページ
+/**
+ * プロフィールページ
+ */
 .p-candidate__head--summary {
     position: relative;
 
