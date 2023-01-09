@@ -36,14 +36,14 @@ export class ProfilePageHelper {
     const target = document.getElementsByClassName(
       'p-candidate__head--summary detail'
     );
-    if (
-      // hasBookmarkButton ||
-      target.length === 0 ||
-      this.storage.profileBookmarkIds.includes(id)
-    ) {
-      console.info('Lapras Support: 既にブックマーク済みです', target);
-      return;
-    }
+    // if (
+    //   // hasBookmarkButton ||
+    //   target.length === 0 ||
+    //   this.storage.profileBookmarkIds.includes(id)
+    // ) {
+    //   console.info('Lapras Support: 既にブックマーク済みです', target);
+    //   return;
+    // }
 
     const button = document.createElement('div');
     button.classList.add('btn', 'btn-sm', 'bookmark');

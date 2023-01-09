@@ -22,7 +22,11 @@ storage.load().then(() => {
 
   if (ProfilePageHelper.isProfilePage(state.url)) {
     console.info('Lapras プロフィールページです');
-    new ProfilePageHelper(storage).addBookmarkButton(state.url);
+    setTimeout(() => {
+      // アクセス3秒後にボタンを表示
+      new ProfilePageHelper(storage).addBookmarkButton(state.url);
+    }, 3000);
+
     return;
   }
   if (CandidatePageHelper.isTalentPage(state.url)) {
